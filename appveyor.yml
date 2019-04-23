@@ -4,6 +4,7 @@ branches:
   - master
   - auto
   - /[\d.]+/
+  - remove_hack_to_check_if_still_needed
 skip_tags: true
 clone_depth: 10
 
