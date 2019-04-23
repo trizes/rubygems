@@ -18,13 +18,6 @@ begin
 rescue LoadError
 end
 
-# We have to load these up front because otherwise we'll try to load
-# them while we're testing rubygems, and thus we can't actually load them.
-unless Gem::Dependency.new('rdoc', '>= 3.10').matching_specs.empty?
-  gem 'rdoc'
-  gem 'json'
-end
-
 require 'bundler'
 
 require 'minitest/autorun'
@@ -1602,8 +1595,6 @@ end
 begin
   gem 'rdoc'
   require 'rdoc'
-
-  require 'rubygems/rdoc'
 rescue LoadError, Gem::LoadError
 end
 
@@ -1620,4 +1611,3 @@ tmpdirs << (ENV['GEM_PATH'] = Dir.mktmpdir("path"))
 pid = $$
 END {tmpdirs.each {|dir| Dir.rmdir(dir)} if $$ == pid}
 Gem.clear_paths
-Gem.loaded_specs.clear
