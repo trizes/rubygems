@@ -1073,8 +1073,6 @@ PeIQQkFng2VVot/WAQbv3ePqWq07g1BBcwIBAg==
     DIR = File.expand_path(File.dirname(__FILE__))
 
     def start_ssl_server(config = {})
-      skip 'openssl in jruby fails' if java_platform?
-
       null_logger = NilLog.new
       server = WEBrick::HTTPServer.new({
         :Port => 0,
@@ -1098,8 +1096,8 @@ PeIQQkFng2VVot/WAQbv3ePqWq07g1BBcwIBAg==
         begin
           server.start
         rescue Exception => ex
-          abort ex.message
           puts "ERROR during server thread: #{ex.message}"
+          raise
         ensure
           server.shutdown
         end
