@@ -40,7 +40,6 @@ require 'shellwords'
 require 'tmpdir'
 require 'uri'
 require 'zlib'
-require 'benchmark' # stdlib
 require 'rubygems/mock_gem_ui'
 
 module Gem
