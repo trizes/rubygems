@@ -776,16 +776,6 @@ class Gem::TestCase < (defined?(Minitest::Test) ? Minitest::Test : MiniTest::Uni
     Gem::Specification.unresolved_deps.values.map(&:to_s).sort
   end
 
-  def save_loaded_features
-    old_loaded_features = $LOADED_FEATURES.dup
-    yield
-  ensure
-    prefix = File.dirname(__FILE__) + "/"
-    new_features = ($LOADED_FEATURES - old_loaded_features)
-    old_loaded_features.concat(new_features.select {|f| f.rindex(prefix, 0)})
-    $LOADED_FEATURES.replace old_loaded_features
-  end
-
   def new_default_spec(name, version, deps = nil, *files)
     spec = util_spec name, version, deps
 
