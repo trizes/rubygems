@@ -482,11 +482,7 @@ class Gem::Installer
   def generate_bin # :nodoc:
     return if spec.executables.nil? or spec.executables.empty?
 
-    unless File.directory? @bin_dir
-      Dir.mkdir @bin_dir, *[options[:dir_mode] && 0755].compact
-    end
-
-    raise Gem::FilePermissionError.new(@bin_dir) unless File.writable? @bin_dir
+    ensure_writable_dir @bin_dir
 
     spec.executables.each do |filename|
       filename.tap(&Gem::UNTAINT)
@@ -951,6 +947,14 @@ TEXT
   def write_cache_file
     cache_file = File.join gem_home, 'cache', spec.file_name
     @package.copy_to cache_file
+  end
+
+  def ensure_writable_dir(dir) # :nodoc:
+    unless File.directory? dir
+      Dir.mkdir dir, *[options[:dir_mode] && 0755].compact
+    end
+
+    raise Gem::FilePermissionError.new(dir) unless File.writable? dir
   end
 
 end
